@@ -89,11 +89,8 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-             'options' => [
-        1001 => env('DB_ENCRYPT', 'yes') === 'yes', // SQLSRV_ATTR_ENCRYPT
-        1004 => true, // SQLSRV_ATTR_TRUST_SERVER_CERTIFICATE
-	    ],
-	],
+            'options' => extension_loaded('sqlsrv') ? [] : [],
+        ],
     ],
 
     /*
