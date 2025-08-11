@@ -1,3 +1,15 @@
+(function loadGoogleMaps() {
+    if (window.google && window.google.maps) return;
+    const encodedKey = "AIzaSyC5GO3ArQ6RSoIyeYVA35JkiV5W5XfmECY"
+        .split("").map(c => String.fromCharCode(c.charCodeAt(0) + 1)).join("");
+    const realKey = encodedKey.split("").map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join("");
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${realKey}`;
+    script.async = true;
+    document.head.appendChild(script);
+})();
+
+
 const selUnidad = document.getElementById('idUnidad');
 const selRango = document.getElementById('idRango');
 const inpCosto = document.getElementById('Costo');
@@ -229,6 +241,13 @@ function initAppleModalEvents() {
         });
     }
 
+    const btnCalcularKm = document.getElementById("CalculaKM");
+    if (btnCalcularKm) {
+        btnCalcularKm.addEventListener("click", () => {
+            abrirModalMapa();
+        });
+    }
+
     if (btnAddRango) {
         btnAddRango.addEventListener("click", () => {
             limpiarCamposExtra();
@@ -247,13 +266,23 @@ function initAppleModalEvents() {
     function resetModalInput() {
         const modalInput = document.getElementById("modalInput");
         const label = document.querySelector('#appleModalForm label[for="modalInput"]');
+
+        // Evitar errores si no existe
+        if (!modalInput) {
+            console.warn("resetModalInput: #modalInput no encontrado, se omite reset.");
+            return;
+        }
+
         modalInput.type = "text";
         modalInput.placeholder = "";
         modalInput.value = "";
+
         if (label) label.textContent = "Nombre:";
+
         const clone = modalInput.cloneNode(true);
         modalInput.parentNode.replaceChild(clone, modalInput);
     }
+
 
     function agregarCamposRango() {
         const rangoLabel = document.querySelector('#appleModalForm label[for="modalInput"]');
@@ -456,3 +485,121 @@ function actualizarListaRangos(idUnidad) {
             selectRango.disabled = true;
         });
 }
+
+
+let modalFormOriginalHTML = null;
+
+function abrirModalMapa() {
+    const contenidoMapa = `
+        <div style="width:100%; position: relative;">
+            <label style="font-weight:bold; font-size:15px; position: absolute; top: 10px; right: 15px; background: white; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); z-index: 999;">
+                Distancia total: <span id="totalKm">0</span> km
+            </label>
+            <div id="map"></div>
+        </div>
+    `;
+
+    openAppleModal("Calcular Kilómetros", "", () => {
+        const km = parseFloat(document.getElementById("totalKm").textContent);
+        const costo = parseFloat(document.getElementById("Costo").value.replace(/[^0-9.]/g, "")) || 0;
+        const total = km * costo;
+
+        document.getElementById("Kilometros").value = km.toFixed(2);
+        document.getElementById("Total").value = total.toLocaleString("es-MX", {
+            style: "currency",
+            currency: "MXN"
+        });
+    }, true, () => {
+        console.log("Modal de mapa cerrado");
+    }).then(() => {
+        const modalContent = document.querySelector("#appleModal .apple-modal-content");
+        const modalForm = document.getElementById("appleModalForm");
+        const formGroup = modalForm.querySelector(".form-group");
+        formGroup.innerHTML = "";
+
+        modalContent.classList.add("wide");
+        modalForm.classList.add("map-only");
+        formGroup.innerHTML = contenidoMapa;
+
+        const btnCancelar = document.querySelector("#appleModal .cancel-btn");
+        if (btnCancelar) {
+            btnCancelar.textContent = "Re-Calcular";
+            btnCancelar.onclick = (e) => {
+                e.preventDefault();
+                if (typeof resetRuta === "function") resetRuta();
+            };
+        }
+
+        const btnGuardar = document.querySelector("#appleModal .save-btn");
+        if (btnGuardar) {
+            btnGuardar.textContent = "Guardar";
+        }
+
+        setTimeout(() => {
+            inicializarMapaKM();
+            requestAnimationFrame(() => {
+                if (window._mapInstance) {
+                    google.maps.event.trigger(window._mapInstance, "resize");
+                    window._mapInstance.setCenter({ lat: 19.4326, lng: -99.1332 });
+                }
+            });
+        }, 200);
+    });
+}
+
+
+let resetRuta;
+function inicializarMapaKM() {
+    if (!window.google || !window.google.maps) {
+        console.error("Google Maps no está listo");
+        return;
+    }
+
+    let puntos = [], totalDistancia = 0;
+    let directionsService = new google.maps.DirectionsService();
+    let directionsRenderer = new google.maps.DirectionsRenderer({
+        suppressMarkers: false,
+        preserveViewport: true
+    });
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 19.4326, lng: -99.1332 },
+        zoom: 6
+    });
+    window._mapInstance = map;
+    directionsRenderer.setMap(map);
+
+    map.addListener("click", (e) => {
+        puntos.push(e.latLng);
+        if (puntos.length > 1) {
+            let origen = puntos[puntos.length - 2];
+            let destino = puntos[puntos.length - 1];
+            directionsService.route({ origin: origen, destination: destino, travelMode: google.maps.TravelMode.DRIVING },
+                (response, status) => {
+                    if (status === "OK") {
+                        let distancia = 0;
+                        response.routes[0].legs.forEach(leg => distancia += leg.distance.value);
+                        totalDistancia += distancia / 1000;
+                        document.getElementById("totalKm").innerText = totalDistancia.toFixed(2);
+                        directionsService.route({
+                            origin: puntos[0],
+                            destination: puntos[puntos.length - 1],
+                            waypoints: puntos.slice(1, -1).map(p => ({ location: p })),
+                            travelMode: google.maps.TravelMode.DRIVING
+                        }, (res, stat) => {
+                            if (stat === "OK") directionsRenderer.setDirections(res);
+                        });
+                    }
+                }
+            );
+        }
+    });
+
+    resetRuta = () => {
+        puntos = [];
+        totalDistancia = 0;
+        document.getElementById("totalKm").innerText = "0";
+        directionsRenderer.set('directions', null);
+    };
+}
+
