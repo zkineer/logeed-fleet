@@ -1,32 +1,102 @@
-<h2>Nueva Cotización</h2>
+<link rel="stylesheet" href="/css/Global.css">
+<link rel="stylesheet" href="/css/Cotizaciones.css">
 
-<form action="/cotizaciones" method="post">
-    <label for="IdCliente">Cliente:</label>
-    <select name="IdCliente" id="IdCliente" required>
-        <option value="">-- Seleccione un cliente --</option>
-        <?php foreach ($clientes as $c): ?>
-            <option value="<?= $c['IdCliente'] ?>">
-                <?= htmlspecialchars($c['Nombre']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
 
-    <br><br>
+<div class="dashboard">
+    <section class="card">
+        <h3>Nueva Cotización</h3>
+        <form action="/fleet/cotizaciones" method="post">
+        <label for="IdCliente">Cliente:</label>
+            <div class="input-with-link">
+                <select name="IdCliente" id="IdCliente" required>
+                    <option value="">-- Seleccione un cliente --</option>
+                    <?php foreach ($clientes as $c): ?>
+                        <option value="<?= $c['IdCliente'] ?>">
+                            <?= htmlspecialchars($c['Nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <span class="add-link" id="addCliente">Agregar</span>
+            </div>
 
-    <label for="Serie">Serie:</label>
-    <input type="text" name="Serie" id="Serie" value="COT" required>
+            <label for="idUnidad">Unidad:</label>
+            <div class="input-with-link">
+                <select name="idUnidad" id="idUnidad" required>
+                    <option value="">-- Seleccione una Unidad --</option>
+                    <?php foreach ($unidades as $u): ?>
+                        <option value="<?= $u['idUnidad'] ?>">
+                            <?= htmlspecialchars($u['Nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <span class="add-link" id="addUnidad">Agregar</span>
+            </div>
 
-    <br><br>
+            <label for="idRango">Rango:</label>
+            <div class="input-with-link">
+                <select name="idRango" id="idRango" required>
+                    <option value="">-- Seleccione un Rango --</option>
+                </select>
+                <span class="add-link" id="addRango">Agregar</span>
+            </div>
 
-    <label for="Folio">Folio:</label>
-    <input type="number" name="Folio" id="Folio" required>
+            <label for="Kilometros">Kilómetros:</label>
+            <input type="number"  name="Kilometros" id="Kilometros" min="0" step="0.1" placeholder="0.0" required>
 
-    <br><br>
+            <label for="Costo">Costo:</label>
+            <input type="text" name="Costo" id="Costo" value="" readonly>
 
-    <label for="Fecha">Fecha:</label>
-    <input type="date" name="Fecha" id="Fecha" value="<?= date('Y-m-d') ?>" required>
+            <label for="Total">Total:</label>
+            <input type="text" name="Total" id="Total" value="" readonly>
 
-    <br><br>
+            <button type="submit">Guardar</button>
+            <br>
+        </form>
+    </section>
 
-    <button type="submit">Guardar</button>
-</form>
+    <section class="col-right">
+        <div class="card" style="position: relative;">
+            <h3>Buscar Cotización</h3>
+            <input type="text" id="buscarCotizacion" placeholder="Buscar por folio / cliente">
+            <div id="resultadosBusqueda" class="dropdown"></div>
+        </div>
+
+        <div class="card" id="detalleCotizacionCard">
+            <h3>Cotización #</h3>
+            <div id="detalleCotizacion"></div>
+        </div>
+    </section>
+</div>
+
+<!-- NOTIFICACIONES-->
+
+<div id="notification" class="notification">
+    <span class="notification-icon">✔</span>
+    <span id="notification-message"></span>
+</div>
+
+<!-- MODAL GENÉRICO -->
+<div id="appleModal" class="apple-modal">
+    <div class="apple-modal-content">
+        <span class="apple-modal-close">&times;</span>
+        <h3 id="appleModalTitle">Título del Modal</h3>
+
+        <form id="appleModalForm">
+            <div class="form-group">
+                <label for="modalInput">Nombre:</label>
+                <input type="text" id="modalInput" name="modalInput" required>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="cancel-btn">Cancelar</button>
+                <button type="submit" class="save-btn">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="/js/Cotizaciones.js"></script>
+<script src="/js/Global.js"></script>
+
+
