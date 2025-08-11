@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/css/Global.css">
-<link rel="stylesheet" href="/css/Cotizaciones.css">
+<link rel="stylesheet" href="/fleet/css/Global.css">
+<link rel="stylesheet" href="/fleet/css/Cotizaciones.css">
 
 
 <div class="dashboard">
@@ -96,7 +96,7 @@
 </div>
 
 
-<script src="/js/Cotizaciones.js"></script>
-<script src="/js/Global.js"></script>
+<script src="/fleet/js/Cotizaciones.js"></script>
+<script src="/fleet/js/Global.js"></script>
 
 
