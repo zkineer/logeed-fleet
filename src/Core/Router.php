@@ -13,24 +13,23 @@ class Router {
     public function dispatch($method, $uri) {
         $path = parse_url($uri, PHP_URL_PATH);
 
-        // Detectar y quitar base path /fleet
-        $basePath = '/fleet';
-        if (strpos($path, $basePath) === 0) {
-            $path = substr($path, strlen($basePath));
-            if ($path === '' || $path === false) {
-                $path = '/';
-            }
-        }
-
-        // Buscar la ruta registrada
-        $callback = $this->routes[$method][$path] ?? null;
-
-        if (!$callback) {
-            http_response_code(404);
-            echo "404 Not Found";
+        // Buscar ruta exacta
+        if (isset($this->routes[$method][$path])) {
+            echo call_user_func($this->routes[$method][$path]);
             return;
         }
 
-        echo call_user_func($callback);
+        // Buscar con parámetros tipo {id}
+        foreach ($this->routes[$method] as $route => $callback) {
+            $pattern = preg_replace('/\{[^\/]+\}/', '([^/]+)', $route);
+            if (preg_match('#^' . $pattern . '$#', $path, $matches)) {
+                array_shift($matches);
+                echo call_user_func_array($callback, $matches);
+                return;
+            }
+        }
+
+        http_response_code(404);
+        echo "404 Not Found";
     }
 }

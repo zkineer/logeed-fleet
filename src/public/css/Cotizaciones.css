@@ -1,0 +1,164 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    align-items: start;
+    padding: 40px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 20px 24px;
+
+}
+
+.card h2, .card h3 {
+    text-align: center;
+    margin-bottom: 18px;
+    font-weight: 700;
+    color: #1f2d3d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+form {
+    display: grid;
+    grid-template-columns: max-content 300px;
+    justify-content: center;
+    gap: 14px 16px;
+    align-items: center;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+
+
+form label {
+    text-align: right;
+    font-weight: 500;
+}
+
+form select,
+form input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form select:focus,
+form input:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 4px rgba(0, 120, 212, 0.3);
+    outline: none;
+}
+
+button {
+    grid-column: 2 / 3;
+    padding: 10px 16px;
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.col-right {
+    display: grid;
+    grid-auto-rows: min-content;
+    gap: 20px;
+}
+
+.col-right .card input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fafafa;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.col-right .card input[type="text"]:focus {
+    background-color: #fff;
+    border-color: #0078d4;
+    box-shadow: 0 0 4px rgba(0, 120, 212, 0.3);
+    outline: none;
+}
+
+.dropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 92%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none; /* oculto por defecto */
+}
+
+
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item.selected {
+    background-color: #e1e5f5;
+}
+
+.input-with-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-with-link select {
+    flex: 1;
+}
+
+.add-link {
+    color: #007aff; /* azul iOS */
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+}
+
+.add-link:hover {
+    color: #005bb5;
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    form {
+        grid-template-columns: 1fr;
+    }
+    form label {
+        text-align: left;
+    }
+    button {
+        grid-column: 1 / 2;
+    }
+}
