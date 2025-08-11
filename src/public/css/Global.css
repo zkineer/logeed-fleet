@@ -7,7 +7,6 @@ html, body {
     background-color: #f5f6f8;
 }
 
-
 .notification {
     position: fixed;
     bottom: 30px;
@@ -45,9 +44,7 @@ html, body {
     font-size: 18px;
 }
 
-
 /* MODAL */
-
 .apple-modal {
     display: none;
     position: fixed;
@@ -63,6 +60,14 @@ html, body {
     padding: 1rem;
 }
 
+/* Contenedor especial para el mapa */
+#appleModalForm .form-group.map-container {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+}
+
 .apple-modal-content h3 {
     text-transform: uppercase;
     font-weight: bold;
@@ -70,16 +75,20 @@ html, body {
     margin-bottom: 1rem;
 }
 
-
 .apple-modal-content {
     position: relative;
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
-    max-width: 400px;
+    max-width: 400px; /* default */
     width: 100%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     animation: modalFadeIn 0.3s ease;
+}
+
+/* Modal ancho para el mapa */
+.apple-modal-content.wide {
+    max-width: 700px !important;
 }
 
 @keyframes modalFadeIn {
@@ -100,12 +109,26 @@ html, body {
     color: #000;
 }
 
+/* Layout por defecto */
 #appleModalForm {
     display: grid;
     grid-template-columns: 80px 1fr;
     grid-gap: 1rem;
 }
 
+/* Layout especial cuando es solo mapa */
+#appleModalForm.map-only {
+    display: block !important;
+}
+
+/* Mapa */
+#map {
+    width: 100% !important;
+    height: 350px !important;
+    border-radius: 10px;
+}
+
+/* Form group normal */
 .form-group {
     display: contents;
 }
@@ -153,7 +176,6 @@ html, body {
     background: #005bb5;
 }
 
-
 @media (max-width: 480px) {
     #appleModalForm {
         grid-template-columns: 1fr;
@@ -166,6 +188,3 @@ html, body {
         justify-content: center;
     }
 }
-
-
-

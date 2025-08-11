@@ -42,7 +42,10 @@
             </div>
 
             <label for="Kilometros">Kilómetros:</label>
-            <input type="number"  name="Kilometros" id="Kilometros" min="0" step="0.1" placeholder="0.0" required>
+            <div class="input-with-link">
+                <input type="number" name="Kilometros" id="Kilometros" min="0" step="0.01" placeholder="0.00" required>
+                <span class="add-link" id="CalculaKM">Calcular</span>
+            </div>
 
             <label for="Costo">Costo:</label>
             <input type="text" name="Costo" id="Costo" value="" readonly>
