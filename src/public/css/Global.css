@@ -109,7 +109,10 @@ html, body {
     opacity: 1;
 }
 
-
+.menu-icon svg {
+    width: 20px;
+    height: 20px;
+}
 
 .notification {
     position: fixed;
