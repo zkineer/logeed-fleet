@@ -10,8 +10,8 @@
     </div>
 
 
-    <!-- Logo empresa -->
-    <img src="/img/LOGO.png" alt="Logo Empresa" class="logo-empresa">
+
+    <img src="/fleet/img/logo.png" alt="Logo Empresa" class="logo-empresa">
 
     <nav class="nav-links">
         <a href="#">Cotizaciones</a>
