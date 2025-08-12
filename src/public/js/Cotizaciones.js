@@ -524,7 +524,7 @@ function abrirModalMapa() {
             currency: "MXN"
         });
     }, true, () => {
-        console.log("Modal de mapa cerrado");
+
     }).then(() => {
         const modalContent = document.querySelector("#appleModal .apple-modal-content");
         const modalForm = document.getElementById("appleModalForm");

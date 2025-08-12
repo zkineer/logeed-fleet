@@ -80,7 +80,7 @@ button {
 }
 
 .col-right .card input[type="text"] {
-    width: 100%;
+    width: 95%;
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
