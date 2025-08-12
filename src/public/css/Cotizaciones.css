@@ -3,7 +3,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     align-items: start;
-    padding: 40px;
+    padding: 60px 40px;
 }
 
 .card {

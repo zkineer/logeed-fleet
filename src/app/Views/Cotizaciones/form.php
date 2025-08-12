@@ -1,7 +1,10 @@
+<?php
+require_once __DIR__ . '/../../../Core/Header.php';
+?>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/fleet/css/Global.css">
 <link rel="stylesheet" href="/fleet/css/Cotizaciones.css">
-
 
 <div class="dashboard">
     <section class="card">
@@ -44,7 +47,7 @@
             <label for="Kilometros">Kilómetros:</label>
             <div class="input-with-link">
                 <input type="number" name="Kilometros" id="Kilometros" min="0" step="0.01" placeholder="0.00" required>
-                <span class="add-link" id="CalculaKM">Calcular</span>
+                <span class="add-link" id="CalculaKM">Mapa</span>
             </div>
 
             <label for="Costo">Costo:</label>

@@ -550,6 +550,13 @@ function abrirModalMapa() {
             btnGuardar.onclick = (e) => {
                 e.preventDefault();
 
+                const dir = (document.getElementById("direccion")?.value || "").trim();
+                if (!dir) {
+                    showNotification("error", "La ruta ingresada no es valida");
+                    document.getElementById("direccion")?.focus();
+                    return;
+                }
+
                 const km = parseFloat(document.getElementById("totalKm").textContent);
                 const costo = parseFloat(document.getElementById("Costo").value.replace(/[^0-9.]/g, "")) || 0;
                 const total = km * costo;

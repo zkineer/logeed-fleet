@@ -194,3 +194,14 @@ function restoreModalContent(modal) {
     }
 }
 
+const navHeader = document.getElementById("navHeader");
+const toggleBtn = document.getElementById("toggleMenu");
+
+
+window.addEventListener("DOMContentLoaded", () => {
+    navHeader.classList.add("open");
+});
+
+toggleBtn.addEventListener("click", () => {
+    navHeader.classList.toggle("open");
+});
