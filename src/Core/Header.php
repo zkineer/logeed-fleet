@@ -201,7 +201,7 @@
 
 <header class="nav-bar">
     <!-- Logo -->
-    <img src="../img/LOGO.png" alt="Logo" class="logo">
+    <img src="/fleet/img/LOGO.png" alt="Logo" class="logo">
 
     <!-- Menú -->
     <div class="dp">
