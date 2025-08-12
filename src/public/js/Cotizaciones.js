@@ -647,7 +647,6 @@ function inicializarMapaKM() {
 
         marcadores.push(marker);
 
-        // 🔹 Ahora siempre recalcula la ruta al agregar
         recalcularRuta();
     }
 
