@@ -214,21 +214,18 @@ async function fetchDieselAgs() {
     }
 }
 
-// Obtener tipo de cambio USD/MXN
+// Obtener tipo de cambio USD/MXN sin AllOrigins
 async function fetchUsdRate() {
-    const url = 'https://api.exchangerate.host/latest?base=USD&symbols=MXN';
-    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-
     try {
-        const res = await fetch(apiUrl);
+        const res = await fetch('https://open.er-api.com/v6/latest/USD');
         const data = await res.json();
-        const json = JSON.parse(data.contents); // Convertir string a JSON
-        return json.rates.MXN;
+        return data.rates.MXN;
     } catch (error) {
         console.error("Error obteniendo tipo de cambio USD:", error);
         return null;
     }
 }
+
 
 // Colocar iconos de tendencia
 function setTrendIcon(element, change) {
