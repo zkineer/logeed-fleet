@@ -6,6 +6,13 @@ require_once __DIR__ . '/../../../Core/Header.php';
 <link rel="stylesheet" href="/fleet/css/Global.css">
 <link rel="stylesheet" href="/fleet/css/Cotizaciones.css">
 
+
+<div id="info-bar" class="info-bar">
+    <span>Diésel: <span id="diesel-price">$--</span> <span id="diesel-trend"></span></span>
+    <span>Dólar (MXN): <span id="usd-mxn-rate">--</span> <span id="usd-trend"></span></span>
+</div>
+
+
 <div class="dashboard">
     <section class="card">
         <h3>Nueva Cotización</h3>

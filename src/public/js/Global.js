@@ -194,3 +194,41 @@ function restoreModalContent(modal) {
     }
 }
 
+
+
+async function fetchDieselPrice() {
+    const res = await fetch('https://gasolinamx.com/diesel-hoy'); // O tu API elegida
+    const data = await res.json(); // Según estructura de API
+    return data.price; // Ej. 26.34
+}
+
+async function fetchUsdRate() {
+    const res = await fetch('https://api.yourchosenservice.com/usd-mxn');
+    const data = await res.json();
+    return { rate: data.rate, changePct: data.changePct };
+}
+
+async function updateInfoBar() {
+    const dieselEl = document.getElementById('diesel-price');
+    const dieselTrend = document.getElementById('diesel-trend');
+    const usdEl = document.getElementById('usd-mxn-rate');
+    const usdTrend = document.getElementById('usd-trend');
+
+    const dieselPrice = await fetchDieselPrice();
+    dieselEl.innerText = `$${dieselPrice}`;
+
+    // Aquí necesitarías calcular la variación respecto al valor previo (almacenado localmente)
+    const dieselChange = calculateChange(dieselPrice, previousDieselPrice);
+    setTrendIcon(dieselTrend, dieselChange);
+
+    const usdData = await fetchUsdRate();
+    usdEl.innerText = usdData.rate.toFixed(4);
+
+    setTrendIcon(usdTrend, usdData.changePct);
+}
+
+function setTrendIcon(element, changePct) {
+    element.innerText = changePct > 0 ? ' ⬆' : ' ⬇';
+    element.className = changePct > 0 ? 'up' : 'down';
+}
+
