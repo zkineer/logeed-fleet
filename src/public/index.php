@@ -3,6 +3,7 @@ require __DIR__ . '/../Core/Router.php';
 require __DIR__ . '/../app/Controllers/Cotizaciones.php';
 require __DIR__ . '/../app/Controllers/Clientes.php';
 require __DIR__ . '/../app/Controllers/Unidades.php';
+require __DIR__ . '/../app/Controllers/Auth.php';
 
 
 
@@ -10,6 +11,7 @@ $router = new Router();
 $cotizacionesController = new CotizacionesController();
 $clientesController     = new ClientesController();
 $unidadesController     = new UnidadesController();
+$authController = new AuthController();
 
 $router->get('/cotizaciones', [$cotizacionesController, 'index']);
 $router->post('/cotizaciones', [$cotizacionesController, 'store']);
@@ -25,7 +27,7 @@ $router->get('/unidades/listar', [$unidadesController, 'listar']);
 
 $router->post('/unidades/guardarRango', [$unidadesController, 'guardarRango']);
 
-
+$router->get('/', [$authController, 'index']);
 
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
