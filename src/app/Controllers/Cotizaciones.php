@@ -9,6 +9,7 @@ class CotizacionesController {
     private $clientesModel;
     private $unidadesModel;
     public function __construct() {
+
         $this->model = new Cotizaciones();
         $this->clientesModel = new Clientes();
         $this->unidadesModel = new Unidades();

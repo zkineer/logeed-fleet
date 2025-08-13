@@ -28,6 +28,7 @@ $router->get('/unidades/listar', [$unidadesController, 'listar']);
 $router->post('/unidades/guardarRango', [$unidadesController, 'guardarRango']);
 
 $router->get('/', [$authController, 'index']);
+$router->post('/login', [$authController, 'login']);
 
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
