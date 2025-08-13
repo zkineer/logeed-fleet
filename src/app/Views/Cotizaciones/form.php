@@ -8,8 +8,16 @@ require_once __DIR__ . '/../../../Core/Header.php';
 
 
 <div id="info-bar" class="info-bar">
-    <span>Diésel: <span id="diesel-price">$--</span> <span id="diesel-trend"></span></span>
-    <span>Dólar (MXN): <span id="usd-mxn-rate">--</span> <span id="usd-trend"></span></span>
+    <span>
+        ⛽ <strong>Diésel:</strong>
+        <span id="diesel-price">$--</span>
+        <span id="diesel-trend"></span>
+    </span>
+    <span>
+        💵 <strong>Dólar (MXN):</strong>
+        <span id="usd-mxn-rate">--</span>
+        <span id="usd-trend"></span>
+    </span>
 </div>
 
 

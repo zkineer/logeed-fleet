@@ -195,18 +195,57 @@ function restoreModalContent(modal) {
 }
 
 
+// Obtener precio del diésel en Aguascalientes
+async function fetchDieselAgs() {
+    const url = 'https://www.nacionalgasolinero.com/';
+    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
 
-async function fetchDieselPrice() {
-    const res = await fetch('https://gasolinamx.com/diesel-hoy'); // O tu API elegida
-    const data = await res.json(); // Según estructura de API
-    return data.price; // Ej. 26.34
+    try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        const html = data.contents;
+
+        // Buscar el precio del diésel para Aguascalientes
+        const match = html.match(/Aguascalientes.*?Di[eé]sel.*?\$([0-9]+\.[0-9]+)/si);
+        return match ? parseFloat(match[1]) : null;
+    } catch (error) {
+        console.error("Error obteniendo precio del diésel:", error);
+        return null;
+    }
 }
 
+// Obtener tipo de cambio USD/MXN
 async function fetchUsdRate() {
-    const res = await fetch('https://api.yourchosenservice.com/usd-mxn');
-    const data = await res.json();
-    return { rate: data.rate, changePct: data.changePct };
+    const url = 'https://api.exchangerate.host/latest?base=USD&symbols=MXN';
+    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+
+    try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        const json = JSON.parse(data.contents); // Convertir string a JSON
+        return json.rates.MXN;
+    } catch (error) {
+        console.error("Error obteniendo tipo de cambio USD:", error);
+        return null;
+    }
 }
+
+// Colocar iconos de tendencia
+function setTrendIcon(element, change) {
+    if (change > 0) {
+        element.innerHTML = '⬆';
+        element.className = 'up';
+    } else if (change < 0) {
+        element.innerHTML = '⬇';
+        element.className = 'down';
+    } else {
+        element.innerHTML = '';
+        element.className = '';
+    }
+}
+
+let previousDieselPrice = null;
+let previousUsdRate = null;
 
 async function updateInfoBar() {
     const dieselEl = document.getElementById('diesel-price');
@@ -214,21 +253,29 @@ async function updateInfoBar() {
     const usdEl = document.getElementById('usd-mxn-rate');
     const usdTrend = document.getElementById('usd-trend');
 
-    const dieselPrice = await fetchDieselPrice();
-    dieselEl.innerText = `$${dieselPrice}`;
+    // Diésel
+    const dieselPrice = await fetchDieselAgs();
+    if (dieselPrice) {
+        dieselEl.innerText = `$${dieselPrice.toFixed(3)} L/MXN`;
+        setTrendIcon(dieselTrend, previousDieselPrice !== null ? dieselPrice - previousDieselPrice : 0);
+        previousDieselPrice = dieselPrice;
+    } else {
+        dieselEl.innerText = 'No disponible';
+        dieselTrend.innerText = '';
+    }
 
-    // Aquí necesitarías calcular la variación respecto al valor previo (almacenado localmente)
-    const dieselChange = calculateChange(dieselPrice, previousDieselPrice);
-    setTrendIcon(dieselTrend, dieselChange);
-
-    const usdData = await fetchUsdRate();
-    usdEl.innerText = usdData.rate.toFixed(4);
-
-    setTrendIcon(usdTrend, usdData.changePct);
+    // USD
+    const usdRate = await fetchUsdRate();
+    if (usdRate) {
+        usdEl.innerText = usdRate.toFixed(4);
+        setTrendIcon(usdTrend, previousUsdRate !== null ? usdRate - previousUsdRate : 0);
+        previousUsdRate = usdRate;
+    } else {
+        usdEl.innerText = 'No disponible';
+        usdTrend.innerText = '';
+    }
 }
 
-function setTrendIcon(element, changePct) {
-    element.innerText = changePct > 0 ? ' ⬆' : ' ⬇';
-    element.className = changePct > 0 ? 'up' : 'down';
-}
-
+// Actualizar al cargar y cada 5 minutos
+updateInfoBar();
+setInterval(updateInfoBar, 300000);
