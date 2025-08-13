@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>LogeedFleet | APP</title>
-    <link rel="stylesheet" href="/css/Login.css">
+    <link rel="stylesheet" href="/fleet/css/Login.css">
 </head>
 <body>
 <div class="login-wrapper">
@@ -106,7 +106,7 @@
         <!-- Lado derecho -->
         <div class="login-right">
             <div class="logo-container">
-                <img src="/img/LOGEED.png" alt="LOGEED Fleet" class="logo">
+                <img src="/fleet/img/LOGEED.png" alt="LOGEED Fleet" class="logo">
                 <p class="site-url">WWW.LOGEED.COM</p>
             </div>
         </div>
