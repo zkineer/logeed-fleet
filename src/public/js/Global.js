@@ -195,24 +195,35 @@ function restoreModalContent(modal) {
 }
 
 
-// Obtener precio del diésel desde tu backend
+// Obtener precio del diésel en Aguascalientes
 async function fetchDieselAgs() {
+    const url = 'https://www.nacionalgasolinero.com/';
+    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+
     try {
-        const res = await fetch('/api/diesel.php');
+        const res = await fetch(apiUrl);
         const data = await res.json();
-        return data.price;
+        const html = data.contents;
+
+        // Buscar el precio del diésel para Aguascalientes
+        const match = html.match(/Aguascalientes.*?Di[eé]sel.*?\$([0-9]+\.[0-9]+)/si);
+        return match ? parseFloat(match[1]) : null;
     } catch (error) {
         console.error("Error obteniendo precio del diésel:", error);
         return null;
     }
 }
 
-// Obtener tipo de cambio USD/MXN desde tu backend
+// Obtener tipo de cambio USD/MXN
 async function fetchUsdRate() {
+    const url = 'https://api.exchangerate.host/latest?base=USD&symbols=MXN';
+    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+
     try {
-        const res = await fetch('/api/usd.php');
+        const res = await fetch(apiUrl);
         const data = await res.json();
-        return data.rate;
+        const json = JSON.parse(data.contents); // Convertir string a JSON
+        return json.rates.MXN;
     } catch (error) {
         console.error("Error obteniendo tipo de cambio USD:", error);
         return null;
@@ -268,4 +279,3 @@ async function updateInfoBar() {
 // Actualizar al cargar y cada 5 minutos
 updateInfoBar();
 setInterval(updateInfoBar, 300000);
-
