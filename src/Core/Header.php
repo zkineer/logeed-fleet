@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogeedFleet APP</title>
+    <title>LogeedFleet</title>
+    <link rel="icon" href="/img/icon.png">
     <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
 
     <style>
         body {
@@ -221,7 +223,7 @@
         <button class="btn-icon" title="Configuración">
             <i class='bx bx-cog'></i>
         </button>
-        <button class="btn-icon" title="Cerrar sesión">
+        <button class="btn-icon" title="Cerrar sesión" id="btnLogout">
             <i class='bx bx-log-out'></i>
         </button>
     </div>
@@ -244,6 +246,11 @@
             dpContent.style.display = 'none';
         }
     });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+        window.location.href = '/fleet/logout';
+    });
+
 </script>
 
 </body>
