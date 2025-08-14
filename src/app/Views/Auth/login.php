@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>LogeedFleet | APP</title>
-    <link rel="stylesheet" href="/css/Login.css">
-    <link rel="icon" href="/fleet/img/icon.png">
+    <link rel="stylesheet" href="/fleet/css/Login.css">
+    <link rel="icon" href="/fleet/img/ICON.png">
 </head>
 <body>
 <div class="login-wrapper">
