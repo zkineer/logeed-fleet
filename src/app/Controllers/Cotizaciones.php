@@ -3,13 +3,15 @@ require_once __DIR__ . '/../../Core/Database.php';
 require_once __DIR__ . '/../../app/Models/Cotizaciones.php';
 require_once __DIR__ . '/../../app/Models/Clientes.php';
 require_once __DIR__ . '/../../app/Models/Unidades.php';
+require_once __DIR__ . '/../../app/Controllers/AuthHelper.php';
+
 
 class CotizacionesController {
     private $model;
     private $clientesModel;
     private $unidadesModel;
     public function __construct() {
-
+        requireLogin();
         $this->model = new Cotizaciones();
         $this->clientesModel = new Clientes();
         $this->unidadesModel = new Unidades();
