@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>LogeedFleet | APP</title>
     <link rel="stylesheet" href="/css/Login.css">
-    <link rel="icon" href="/img/icon.png">
+    <link rel="icon" href="/fleet/img/icon.png">
 </head>
 <body>
 <div class="login-wrapper">
